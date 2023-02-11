@@ -171,6 +171,8 @@ class _SlideViewState extends State<SlideView> {
   int _currentPage = 0;
   final _currentPageNotifier = ValueNotifier(0);
 
+  Timer? _autoSlide;
+
   void initController() {
     _pageController = PageController(
       initialPage: (widget.children != null)
@@ -184,7 +186,7 @@ class _SlideViewState extends State<SlideView> {
 
   void configAutoSlide() {
     if (widget.controller.autoSlide) {
-      widget.controller.startAutoSlide();
+      _autoSlide = widget.controller.startAutoSlide();
     }
   }
 
@@ -208,6 +210,8 @@ class _SlideViewState extends State<SlideView> {
   @override
   void dispose() {
     // TODO: implement dispose
+    _autoSlide?.cancel();
+    _currentPageNotifier.dispose();
     super.dispose();
   }
 
